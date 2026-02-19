@@ -1,23 +1,23 @@
 pipeline:
-  name: ${APP_NAME}
-  identifier: ${APP_NAME}
+  name: customer-api
+  identifier: customer-api
   projectIdentifier: ${HARNESS_PROJECT_ID}
   orgIdentifier: woolworthslimited
   # This references the global template
   template:
-    templateRef: account.Standard_Microservice_Pipeline_Dep
+    templateRef: account.Standard_Microservice_Pipeline
     versionLabel: v1
     templateInputs:
       stages:
         - stage:
-            identifier: deploy
-            type: CD
+            identifier: build_stage
+            type: CI
             spec:
               execution:
                 steps:
                   - step:
-                      identifier: deploy_tf
+                      identifier: Build_Docker_Image
                       type: Run
                       spec:
                         # Passing the specific tag for this app
-                        command: "terraform apply"
+                        command: "${DOCKER_REGISTRY}/customer-api:${APP_VERSION}"
