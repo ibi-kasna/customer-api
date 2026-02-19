@@ -1,0 +1,23 @@
+pipeline:
+  name: ${APP_NAME}
+  identifier: ${APP_NAME}
+  projectIdentifier: ${HARNESS_PROJECT_ID}
+  orgIdentifier: woolworthslimited
+  # This references the global template
+  template:
+    templateRef: account.Standard_Microservice_Pipeline_Dep
+    versionLabel: v1
+    templateInputs:
+      stages:
+        - stage:
+            identifier: deploy
+            type: CD
+            spec:
+              execution:
+                steps:
+                  - step:
+                      identifier: deploy_tf
+                      type: Run
+                      spec:
+                        # Passing the specific tag for this app
+                        command: "terraform apply"
